@@ -1,7 +1,10 @@
 ﻿import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import route from "./Routes/routes.js";
+import login from "./Routes/User_Operations/Login.js";
+import register from "./Routes/User_Operations/Register.js";
+import logout from "./Routes/User_Operations/Logout.js";
+import { auth, state } from "./Routes/Guard/guard.js";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 dotenv.config();
@@ -12,10 +15,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    credentials: true, origin: "*"
+    credentials: true,
+    origin: "*",
   })
 );
-app.use("/api", route);
+app.use("/api/login", state, login);
+app.use("/api/register", state, register);
+app.use("/api/logout", auth, logout);
 
 mongoose
   .connect(process.env.MONGO_URL, {
