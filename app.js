@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 app.use("/api/login", state, login);
 app.use("/api/register", state, register);
 app.use("/api/logout", auth, logout);
